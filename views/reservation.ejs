@@ -1,0 +1,452 @@
+<!DOCTYPE html>
+<html lang='fr'>
+
+<!-- Mirrored from www.wecasa.fr/pro/inscription by HTTrack Website Copier/3.x [XR&CO'2014], Sat, 28 Sep 2019 17:21:09 GMT -->
+<!-- Added by HTTrack --><meta http-equiv="content-type" content="text/html;charset=UTF-8" /><!-- /Added by HTTrack -->
+<%- include('partials/head'); -%>
+<body class='gray-lighter-bg'>
+<script>window.dataLayer=window.dataLayer||[];</script>
+
+<!-- Google Tag Manager -->
+<noscript><iframe src="http://www.googletagmanager.com/ns.html?id=GTM-5K64L9" height="0" width="0" style="display:none;visibility:hidden"></iframe></noscript>
+<script>(function(w,d,s,l,i){w[l]=w[l]||[];w[l].push({'gtm.start':new Date().getTime(),event:'gtm.js'});var f=d.getElementsByTagName(s)[0],j=d.createElement(s),dl=l!='dataLayer'?'&l='+l:'';j.async=true;j.src='../../www.googletagmanager.com/gtm5445.html?id='+i+dl;f.parentNode.insertBefore(j,f);})(window,document,'script','dataLayer','GTM-5K64L9');</script>
+<!-- End Google Tag Manager -->
+
+<div class='padding-header'></div>
+
+
+
+<%- include('partials/header'); -%>
+
+
+
+<div>
+    <article class='content-pro'>
+
+        <div class='container mt-3'>
+            <div class='row relative'>
+                <div class='col-lg-9 col-md-12 pro-form'>
+                    <div class='card'>
+                        <div class='card-header text-center text-primary pb-0'>
+                            <h3>Formulaire de reservation !</h3>
+                        </div>
+                        <div class='card-body'>
+                            <div class='container mt-3' id='errors' style='display: none;'>
+                                <div class='alert alert-danger' role='alert'>
+                                    Veuillez corriger les erreurs suivantes :
+                                    <ul class='error-messages'>
+                                    </ul>
+                                </div>
+                            </div>
+
+
+
+
+
+
+
+
+
+
+
+                            <form class="form-horizontal center "   accept-charset="UTF-8">
+
+
+
+
+
+                                <div class='row'>
+
+                                    <div class='col-sm-10 offset-sm-1'>
+                                        <div class='form-group'>
+                                            <select class="form-control select-cat"   data-width="260px" title="Choisissez au moins un domaine">
+
+                                                <option value="f">Femme</option>
+                                                <option value="h">Homme</option>
+
+                                                <option value="e">Enfant</option></select>
+                                        </div>
+                                    </div>
+                                </div>
+
+
+
+                                <div class='row content-data' style="display: none;">
+
+                                    <div class='col-sm-10 offset-sm-1'>
+                                        <div class='form-group'>
+                                            <select class="form-control datacontent"   data-width="260px" title="Choisissez au moins un domaine" name="type_coiffure">
+
+
+</select>
+                                        </div>
+                                    </div>
+                                </div>
+
+
+
+
+                                <div class='row'>
+
+
+                                </div>
+                                <div class='row'>
+                                    <div class='col-sm-10 offset-sm-1'>
+                                        <div class='form-group'>
+                                            <input class="form-control" placeholder="Entrez votre Nom " required="required" type="text" name="nom" id="pro_subscription_last_name"/>
+                                        </div>
+                                    </div>
+                                    <div class='col-sm-5 offset-sm-1'>
+                                        <div class='form-group'>
+                                            <input class="form-control datetimepicker" placeholder="Date" type="text" name="date" id="pro_subscription_date_of_birth"/>
+                                        </div>
+                                    </div>
+                                    <div class='col-sm-5'>
+                                        <div class='form-group'>
+                                            <input class="form-control" placeholder="Heure" required="required" type="text" name="heure" id="pro_subscription_siren"/>
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class='row'>
+
+                                    <div class='col-sm-10 offset-sm-1'>
+                                        <div class='form-group'>
+                                            <input class="form-control" placeholder="Téléphone" required="required" type="text" name="telephone" id="pro_subscription_phone"/>
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class='row'>
+                                    <div class='col-sm-10 offset-sm-1'>
+                                        <div class='form-group'>
+                                            <input class="form-control " required="required" placeholder="Adresse" type="text" name="adresse" id="pro_subscription_address"/>
+
+                                        </div>
+                                    </div>
+                                </div>
+
+
+                                <div class='row form-group'>
+                                    <div class='offset-sm-3 col-sm-6'>
+                                        <input type="submit" name="commit" value="Valider" class="btn btn-lg btn-block btn-primary btn-submit" data-disable-with="Valider"/>
+                                    </div>
+                                </div>
+                            </form>
+                        </div>
+                    </div>
+                </div>
+
+                <script type="text/javascript">
+
+
+
+                    $(document).ready(function(){
+                        console.log("onchange");
+                        var categorie = null ;
+
+                        $(document).on('change','.select-cat',function (){
+                            categorie = $(this).val();
+                            console.log(categorie);
+
+
+                            $('.datacontent').html("");
+                            $.ajax({
+
+                                type:'get',
+                                url:'https://myhomeback.herokuapp.com/api/coiffure/categorie/'+categorie,
+                                contentType: "application/json; charset=utf-8",
+                                success:function(data){
+                                    console.log();
+
+                                    if(categorie=='e'){
+
+
+                                        $.each(data, function (i, datas) {
+
+
+
+                                                $('.datacontent').append($('<option>', {
+                                                    value: data[i].nom,
+                                                    text : data[i].nom,
+                                                }));
+
+
+
+                                        });
+
+$('.content-data').animate({
+    opacity: 0
+}).slideUp("slow");
+
+$('.content-data').css({
+    opacity: 0
+}).slideDown("slow").animate({
+    opacity: 2
+});
+
+
+
+                                    }
+
+                                    else if(categorie=='f'){
+
+                                        $('.content-data').animate({
+                                            opacity: 0
+                                        }).slideUp("slow");
+
+                                        $('.content-data').css({
+                                            opacity: 0
+                                        }).slideDown("slow").animate({
+                                            opacity: 2
+                                        });
+                                        $.each(data, function (i, datas) {
+
+                                            if(data[i].localisationlib !== null)
+                                            {
+
+                                                $('.datacontent').append($('<option>', {
+                                                    value: data[i].nom,
+                                                    text : data[i].nom,
+                                                }));
+                                            }
+
+
+                                        });
+
+                                    }
+
+                                    else{
+                                        $('.content-data').animate({
+                                            opacity: 0
+                                        }).slideUp("slow");
+
+                                        $('.content-data').css({
+                                            opacity: 0
+                                        }).slideDown("slow").animate({
+                                            opacity: 2
+                                        });
+                                        $.each(data, function (i, datas) {
+
+
+                                                $('.datacontent').append($('<option>', {
+                                                    value: data[i].nom,
+                                                    text : data[i].nom,
+                                                }));
+
+
+
+                                        });
+
+                                    }
+
+                                },
+                                error:function(){
+
+                                }
+                            });
+
+                        });
+
+
+
+
+                    });
+
+
+                </script>
+
+
+                <script type="text/javascript">
+
+
+
+
+
+
+
+                    $(".btn-submit").click(function(e){
+
+
+
+                        e.preventDefault();
+
+
+
+                        var nom = $("input[name=nom]").val();
+
+                        var date = $("input[name=date]").val();
+
+                        var adresse = $("input[name=adresse]").val();
+0
+                        var heure = $("input[name=heure]").val();
+                        var type_coiffure = $("input[name=type_coiffure]").val();
+                        var telephone = $("input[name=telephone]").val();
+
+
+                        $.ajax({
+
+
+                            url:'https://myhomeback.herokuapp.com/api/reservations',
+                            type:'POST',
+                            data: JSON.stringify({nom: nom,
+                                type_coiffure: type_coiffure ,
+                                adresse: adresse,
+                                date: date,
+                                heure: heure,
+                                telephone: telephone}),
+
+                            contentType: "application/json; charset=utf-8",
+                            success:function(res){
+                          message1 =``
+
+
+                                $.ajax({
+
+                                    type:'post',
+                                    url:"https://sms.etech-keys.com/ss/api.php?login=657245881&password=657245881&sender_id=BeautyHouse&destinataire="+telephone+"&message=Votre reservation a été envoyé avec succes nous vous appelerons&ext_id=0123456&programmation=0" ,
+                                    contentType: "application/json; charset=utf-8",
+                                    success:function(data){
+                                        console.log();
+
+
+                                        alert("it works!");
+
+                                    },
+                                    error:function(){
+
+                                        alert("message envoyé vous allez recevoir un SMS de confirmation ");
+                                        location.href="/";
+                                    }
+                                });
+
+                                $.ajax({
+
+                                    type:'post',
+                                    url:"https://sms.etech-keys.com/ss/api.php?login=657245881&password=657245881&sender_id=Beauty House&destinataire=696704915&message=nouvelle reservation de: "+nom+ ", tel:"+telephone+" coif "+type_coiffure+"&ext_id=0123456&programmation=0" ,
+                                    contentType: "application/json; charset=utf-8",
+                                    success:function(data){
+                                        console.log();
+
+
+                                        alert("it works!");
+                                        location.href="/";
+
+
+
+
+
+                                    },
+                                    error:function(){
+
+                                        alert("message envoyé vous allez recevoir un SMS de confirmation ");
+                                        location.href="/";
+                                    }
+                                });
+
+
+
+
+
+
+
+
+
+
+
+
+                            },
+                            error:function(res){
+                                alert("Bad thing happend! " + res.statusText);
+                                console.log(data);
+                            }
+
+
+
+
+                        });
+
+
+
+                    });
+
+
+
+
+
+
+
+
+                </script>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+                <div class='col-lg-4 col-md-12 text-center'>
+                    <h2>Comment ça marche ?</h2>
+                    <div class='row'>
+                        <div class='col-sm-4 col-lg-12'>
+                            <div class='h1'>
+                                <span class='icon-pro ip-map_pin'></span>
+                            </div>
+                            <p>Vous remplissez le formulaire de réservation avec ce que souhaitez</p>
+                        </div>
+                        <div class='col-sm-4 col-lg-12'>
+                            <div class='h1'>
+                                <span class='icon-pro ip-phone2'></span>
+                            </div>
+                            <p>Vous êtes notifié par sms de votre réservation sur Beautyhouse</p>
+                        </div>
+                        <div class='col-sm-4 col-lg-12'>
+                            <div class='h1'>
+                                <span class='icon-pro ip-circle_check'></span>
+                            </div>
+                            <p>Une coiffeuse experte Beautyhouse arrive chez vous pour réaliser votre coiffure</p>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+
+
+
+
+
+
+<footer class='container-fluid darkdark pb-3'>
+
+</footer>
+
+
+
+
+
+
+
+</body>
+
+
+</html>
